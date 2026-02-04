@@ -230,12 +230,12 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
           <div className="flex-1 text-center">Trend</div>
         </div>
         
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           {topCustomers.map((customer) => (
             <div 
               key={customer.customerId} 
               className={cn(
-                "flex items-center gap-6 rounded-lg px-4 py-4 transition-all",
+                "flex items-center gap-6 rounded-lg px-4 py-2.5 transition-all",
                 customer.currentRisk === 'high' && "bg-destructive/5 border-l-4 border-destructive shadow-sm",
                 customer.currentRisk === 'medium' && "bg-warning/5 border-l-4 border-warning shadow-sm",
                 customer.currentRisk === 'low' && "bg-secondary/30 border-l-4 border-success/50 hover:bg-secondary/50"
