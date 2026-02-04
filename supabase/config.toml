@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.revenue-analysis]
 verify_jwt = false
+
+[functions.customer-health-history]
+verify_jwt = false
