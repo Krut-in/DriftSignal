@@ -124,7 +124,7 @@ function RiskBadge({ level }: { level: 'high' | 'medium' | 'low' }) {
   
   return (
     <span className={cn(
-      "inline-flex items-center justify-center rounded-md border px-3 py-1 text-sm font-semibold capitalize min-w-[60px]",
+      "inline-flex items-center justify-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize min-w-[50px]",
       config[level]
     )}>
       {level}
