@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MonthSelector } from "@/components/revenue/MonthSelector";
 import { KPIRow } from "@/components/revenue/KPIRow";
 import { CustomerDriftTable } from "@/components/revenue/CustomerDriftTable";
 import { AIAnalysisPanel } from "@/components/revenue/AIAnalysisPanel";
+import { CustomerHealthTimeline } from "@/components/revenue/CustomerHealthTimeline";
 import { useRevenueData } from "@/hooks/useRevenueData";
 import { useRevenueAnalysis } from "@/hooks/useRevenueAnalysis";
+import { useCustomerHealthHistory } from "@/hooks/useCustomerHealthHistory";
 import { TrendingDown } from "lucide-react";
 
 function getDefaultPeriod() {
@@ -41,6 +43,12 @@ const Index = () => {
     } : null,
     !!revenueData
   );
+
+  const {
+    data: healthHistory,
+    isLoading: isLoadingHealth,
+    error: healthError,
+  } = useCustomerHealthHistory(month, year);
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,6 +98,15 @@ const Index = () => {
               revenueDriftPercent: 0,
             }} 
             isLoading={isLoadingData} 
+          />
+        </section>
+
+        {/* Customer Health Timeline - Full Width */}
+        <section className="mb-8">
+          <CustomerHealthTimeline
+            customers={healthHistory?.customers || []}
+            isLoading={isLoadingHealth}
+            error={healthError}
           />
         </section>
 
