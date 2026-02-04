@@ -60,26 +60,51 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
   );
 }
 
-function TrendIndicator({ trend }: { trend: 'improving' | 'stable' | 'declining' }) {
-  const config = {
-    improving: {
-      icon: TrendingDown,
-      label: 'Improving',
-      className: 'text-green-600 bg-green-50',
-    },
-    stable: {
+function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 'declining'; riskLevel: 'high' | 'medium' | 'low' }) {
+  // Context-aware labels: "Stable" for high-risk customers is misleading
+  // Show "Persistently High" or "Persistently At Risk" instead
+  const getConfig = () => {
+    if (trend === 'improving') {
+      return {
+        icon: TrendingDown,
+        label: 'Improving',
+        className: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950',
+      };
+    }
+    
+    if (trend === 'declining') {
+      return {
+        icon: TrendingUp,
+        label: 'Worsening',
+        className: 'text-destructive bg-destructive/10',
+      };
+    }
+    
+    // Stable trend - label depends on risk level
+    if (riskLevel === 'high') {
+      return {
+        icon: Minus,
+        label: 'Persistently High',
+        className: 'text-destructive bg-destructive/10',
+      };
+    }
+    
+    if (riskLevel === 'medium') {
+      return {
+        icon: Minus,
+        label: 'Holding',
+        className: 'text-warning bg-warning/10',
+      };
+    }
+    
+    return {
       icon: Minus,
       label: 'Stable',
       className: 'text-muted-foreground bg-muted',
-    },
-    declining: {
-      icon: TrendingUp,
-      label: 'Declining',
-      className: 'text-destructive bg-destructive/10',
-    },
+    };
   };
   
-  const { icon: Icon, label, className } = config[trend];
+  const { icon: Icon, label, className } = getConfig();
   
   return (
     <span className={cn(
@@ -200,7 +225,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
             ))}
           </div>
           <div className="w-16 text-center">Risk</div>
-          <div className="w-20 text-center">Trend</div>
+          <div className="w-24 text-center">Trend</div>
         </div>
         
         <div className="space-y-2">
@@ -227,8 +252,8 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
               </div>
               
               {/* Trend */}
-              <div className="w-20 text-center">
-                <TrendIndicator trend={customer.trend} />
+              <div className="w-24 text-center">
+                <TrendIndicator trend={customer.trend} riskLevel={customer.currentRisk} />
               </div>
             </div>
           ))}
