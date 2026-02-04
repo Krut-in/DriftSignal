@@ -15,7 +15,7 @@ interface LightInvoice {
   id: string;
   customerId: string;
   customerName?: string;
-  amount: number;
+  amount: number | string;
   invoiceDate: string;
   dueDate: string;
   state: string;
@@ -26,7 +26,7 @@ interface LightContract {
   customerId: string;
   startDate: string;
   endDate?: string;
-  estimatedAmount?: number;
+  estimatedAmount?: number | string;
   state: string;
 }
 
@@ -34,7 +34,7 @@ interface LightCredit {
   id: string;
   customerId: string;
   customerName?: string;
-  amount: number;
+  amount: number | string;
   documentDate: string;
   status: string;
 }
@@ -53,6 +53,57 @@ interface CustomerRevenue {
   contractEndDate?: string;
   invoiceCount: number;
   unpaidInvoiceCount: number;
+}
+
+// Maximum reasonable amount threshold - $100 million
+// Amounts larger than this are likely data entry errors
+const MAX_REASONABLE_AMOUNT = 100_000_000_00; // $100M in cents
+
+// Parse amounts from Light API - handles cents conversion and locale formats
+function parseAmount(value: string | number | null | undefined): number {
+  if (value === null || value === undefined || value === '') return 0;
+  
+  // If already a number
+  if (typeof value === 'number') {
+    // Check for obviously erroneous data (over threshold)
+    if (Math.abs(value) > MAX_REASONABLE_AMOUNT) {
+      console.warn(`Suspicious amount detected: ${value} cents - exceeds $100M threshold, likely data error`);
+      return 0; // Return 0 to exclude from totals
+    }
+    // Light API returns amounts in cents - convert to dollars
+    return value / 100;
+  }
+  
+  let str = String(value).trim();
+  
+  // Remove currency symbols and whitespace
+  str = str.replace(/[$€£¥\s]/g, '');
+  
+  // Auto-detect format by checking last separator
+  const lastComma = str.lastIndexOf(',');
+  const lastDot = str.lastIndexOf('.');
+  
+  // Determine if comma is the decimal separator
+  const isCommaDecimal = lastComma > lastDot;
+  
+  if (isCommaDecimal) {
+    str = str.replace(/\./g, ''); // Remove thousand separators
+    str = str.replace(',', '.'); // Convert decimal separator
+  } else {
+    str = str.replace(/,/g, ''); // Remove thousand separators
+  }
+  
+  const parsed = parseFloat(str);
+  if (isNaN(parsed)) return 0;
+  
+  // Check for obviously erroneous data
+  if (Math.abs(parsed) > MAX_REASONABLE_AMOUNT) {
+    console.warn(`Suspicious amount detected: ${parsed} - exceeds $100M threshold, likely data error`);
+    return 0;
+  }
+  
+  // Light API typically returns cents - convert to dollars
+  return parsed / 100;
 }
 
 async function fetchLightAPI(endpoint: string, apiKey: string): Promise<any> {
@@ -144,12 +195,13 @@ serve(async (req) => {
 
     console.log(`Fetched: ${customers.length} customers, ${invoices.length} invoices, ${contracts.length} contracts, ${credits.length} credits`);
     
-    // Log sample invoice dates to debug filtering
+    // Log sample invoice data to debug amount parsing
     if (invoices.length > 0) {
-      console.log('Sample invoice dates:', invoices.slice(0, 5).map(inv => ({
+      console.log('Sample invoices with raw and parsed amounts:', invoices.slice(0, 5).map(inv => ({
         id: inv.id,
         invoiceDate: inv.invoiceDate,
-        amount: inv.amount,
+        rawAmount: inv.amount,
+        parsedAmount: parseAmount(inv.amount),
         customerId: inv.customerId
       })));
     }
@@ -206,13 +258,15 @@ serve(async (req) => {
         customerMetrics.set(customerId, metrics);
       }
 
+      const amount = parseAmount(invoice.amount);
+
       // Current month revenue
       if (isInMonth(invoice.invoiceDate, month, year)) {
-        metrics.currentRevenue += invoice.amount || 0;
+        metrics.currentRevenue += amount;
         metrics.invoiceCount++;
         
         if (invoice.state !== 'PAID') {
-          metrics.unpaidAmount += invoice.amount || 0;
+          metrics.unpaidAmount += amount;
           metrics.unpaidInvoiceCount++;
           const days = calculateDaysOutstanding(invoice.dueDate);
           metrics.daysOutstanding = Math.max(metrics.daysOutstanding, days);
@@ -221,7 +275,7 @@ serve(async (req) => {
 
       // Previous month revenue
       if (isInMonth(invoice.invoiceDate, prev.month, prev.year)) {
-        metrics.previousRevenue += invoice.amount || 0;
+        metrics.previousRevenue += amount;
       }
     });
 
@@ -232,7 +286,7 @@ serve(async (req) => {
       
       const metrics = customerMetrics.get(customerId);
       if (metrics && isInMonth(credit.documentDate, month, year)) {
-        metrics.creditsApplied += credit.amount || 0;
+        metrics.creditsApplied += parseAmount(credit.amount);
       }
     });
 
@@ -286,6 +340,7 @@ serve(async (req) => {
       : 0;
 
     console.log(`Returning ${result.length} customers with activity`);
+    console.log('Totals:', JSON.stringify(totals));
 
     return new Response(
       JSON.stringify({ 
