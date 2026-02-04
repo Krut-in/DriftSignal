@@ -56,9 +56,12 @@ interface CustomerRevenue {
 }
 
 async function fetchLightAPI(endpoint: string, apiKey: string): Promise<any> {
+  console.log(`Calling Light API: ${endpoint}`);
+  
+  // Light API uses Basic auth with API key directly (not base64 encoded)
   const response = await fetch(`https://api.light.inc${endpoint}`, {
     headers: {
-      'Authorization': `Basic ${btoa(apiKey + ':')}`,
+      'Authorization': `Basic ${apiKey}`,
       'Content-Type': 'application/json',
     },
   });
