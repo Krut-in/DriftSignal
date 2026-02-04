@@ -7,7 +7,8 @@ import { CustomerHealthTimeline } from "@/components/revenue/CustomerHealthTimel
 import { useRevenueData } from "@/hooks/useRevenueData";
 import { useRevenueAnalysis } from "@/hooks/useRevenueAnalysis";
 import { useCustomerHealthHistory } from "@/hooks/useCustomerHealthHistory";
-import { TrendingDown } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { TrendingDown, ChevronDown } from "lucide-react";
 
 function getDefaultPeriod() {
   const now = new Date();
@@ -22,6 +23,8 @@ const Index = () => {
   const defaultPeriod = getDefaultPeriod();
   const [month, setMonth] = useState(defaultPeriod.month);
   const [year, setYear] = useState(defaultPeriod.year);
+  const [healthTimelineOpen, setHealthTimelineOpen] = useState(true);
+  const [revenueDriftOpen, setRevenueDriftOpen] = useState(true);
 
   const { 
     data: revenueData, 
@@ -102,24 +105,35 @@ const Index = () => {
         </section>
 
         {/* Customer Health Timeline - Full Width */}
-        <section className="mb-8">
-          <CustomerHealthTimeline
-            customers={healthHistory?.customers || []}
-            isLoading={isLoadingHealth}
-            error={healthError}
-          />
-        </section>
+        <Collapsible open={healthTimelineOpen} onOpenChange={setHealthTimelineOpen} className="mb-8">
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-card px-4 py-3 text-left hover:bg-accent/50 transition-colors border">
+            <h2 className="text-lg font-semibold text-foreground">Customer Health Timeline</h2>
+            <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${healthTimelineOpen ? 'rotate-180' : ''}`} />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4">
+            <CustomerHealthTimeline
+              customers={healthHistory?.customers || []}
+              isLoading={isLoadingHealth}
+              error={healthError}
+            />
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Main Content Grid */}
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Customer Table - 2 columns */}
-          <section className="lg:col-span-2">
-            <h2 className="mb-4 text-lg font-semibold text-foreground">Customer Revenue Drift</h2>
-            <CustomerDriftTable 
-              customers={revenueData?.customers || []} 
-              isLoading={isLoadingData}
-            />
-          </section>
+          <Collapsible open={revenueDriftOpen} onOpenChange={setRevenueDriftOpen} className="lg:col-span-2">
+            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-card px-4 py-3 text-left hover:bg-accent/50 transition-colors border">
+              <h2 className="text-lg font-semibold text-foreground">Customer Revenue Drift</h2>
+              <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-4">
+              <CustomerDriftTable 
+                customers={revenueData?.customers || []} 
+                isLoading={isLoadingData}
+              />
+            </CollapsibleContent>
+          </Collapsible>
 
           {/* AI Analysis Panel - 1 column */}
           <section className="lg:col-span-1">
