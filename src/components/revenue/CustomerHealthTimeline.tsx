@@ -16,9 +16,9 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
   const max = Math.max(...data, 100);
   const min = Math.min(...data, 0);
   const range = max - min || 1;
-  const height = 24;
-  const width = 100;
-  const padding = 2;
+  const height = 40;
+  const width = 140;
+  const padding = 4;
   
   const points = data.map((value, index) => {
     const x = padding + (index / (data.length - 1)) * (width - 2 * padding);
@@ -38,14 +38,14 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
     <svg 
       width={width} 
       height={height} 
-      className={cn("overflow-visible", className)}
+      className={cn("overflow-visible shrink-0", className)}
       viewBox={`0 0 ${width} ${height}`}
     >
       <polyline
         points={points}
         fill="none"
         stroke={strokeColor}
-        strokeWidth="2"
+        strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -53,7 +53,7 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
       <circle
         cx={padding + ((data.length - 1) / (data.length - 1)) * (width - 2 * padding)}
         cy={height - padding - ((data[data.length - 1] - min) / range) * (height - 2 * padding)}
-        r="3"
+        r="4"
         fill={strokeColor}
       />
     </svg>
@@ -106,10 +106,10 @@ function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 
   
   return (
     <span className={cn(
-      "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
+      "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium",
       className
     )}>
-      <Icon className="h-3 w-3" />
+      <Icon className="h-3.5 w-3.5" />
       {label}
     </span>
   );
@@ -117,14 +117,14 @@ function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 
 
 function RiskBadge({ level }: { level: 'high' | 'medium' | 'low' }) {
   const config = {
-    high: 'bg-destructive/10 text-destructive border-destructive/20',
-    medium: 'bg-warning/10 text-warning border-warning/20',
-    low: 'bg-muted text-muted-foreground border-border',
+    high: 'bg-destructive/15 text-destructive border-destructive/30',
+    medium: 'bg-warning/15 text-warning border-warning/30',
+    low: 'bg-success/10 text-success border-success/20',
   };
   
   return (
     <span className={cn(
-      "inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium capitalize",
+      "inline-flex items-center justify-center rounded-md border px-3 py-1 text-sm font-semibold capitalize min-w-[60px]",
       config[level]
     )}>
       {level}
@@ -204,60 +204,62 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
 
   return (
     <Card className="bg-card">
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-base font-semibold">
-            <Activity className="h-4 w-4 text-primary" />
-            Health Timeline
+          <CardTitle className="flex items-center gap-2.5 text-lg font-semibold">
+            <Activity className="h-5 w-5 text-primary" />
+            Customer Health Timeline
           </CardTitle>
-          <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
-            6-mo trend
+          <span className="text-xs text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full">
+            6-month trend
           </span>
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent>
         {/* Column headers */}
-        <div className="mb-2 flex items-center text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
-          <div className="w-24 shrink-0">Customer</div>
-          <div className="flex w-[100px] justify-between px-0.5">
+        <div className="mb-4 pb-3 border-b border-border flex items-center gap-6 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <div className="w-[140px] shrink-0">Customer</div>
+          <div className="w-[140px] shrink-0 flex justify-between px-1">
             {monthLabels.map((label, i) => (
-              <span key={i} className={i === monthLabels.length - 1 ? 'text-foreground' : ''}>
+              <span key={i} className={i === monthLabels.length - 1 ? 'text-foreground font-semibold' : ''}>
                 {label}
               </span>
             ))}
           </div>
-          <div className="w-14 text-center ml-2">Risk</div>
-          <div className="w-16 text-center">Trend</div>
+          <div className="w-[80px] text-center">Risk</div>
+          <div className="flex-1 text-center">Trend</div>
         </div>
         
-        <div className="space-y-1">
+        <div className="space-y-3">
           {topCustomers.map((customer) => (
             <div 
               key={customer.customerId} 
               className={cn(
-                "flex items-center rounded-md px-2 py-1.5 transition-colors hover:bg-secondary/50",
-                customer.currentRisk === 'high' && "bg-destructive/5 border-l-2 border-destructive",
-                customer.currentRisk === 'medium' && "bg-warning/5 border-l-2 border-warning",
-                customer.currentRisk === 'low' && "bg-secondary/20"
+                "flex items-center gap-6 rounded-lg px-4 py-4 transition-all",
+                customer.currentRisk === 'high' && "bg-destructive/5 border-l-4 border-destructive shadow-sm",
+                customer.currentRisk === 'medium' && "bg-warning/5 border-l-4 border-warning shadow-sm",
+                customer.currentRisk === 'low' && "bg-secondary/30 border-l-4 border-success/50 hover:bg-secondary/50"
               )}
             >
               {/* Customer name */}
-              <div className="w-24 shrink-0">
-                <p className="truncate text-xs font-medium text-foreground" title={customer.customerName}>
+              <div className="w-[140px] shrink-0">
+                <p className="truncate text-sm font-semibold text-foreground" title={customer.customerName}>
                   {customer.customerName}
                 </p>
               </div>
               
               {/* Sparkline */}
-              <Sparkline data={customer.history.map(h => h.riskScore)} className="w-[100px]" />
+              <div className="w-[140px] shrink-0 flex items-center justify-center">
+                <Sparkline data={customer.history.map(h => h.riskScore)} />
+              </div>
               
               {/* Current risk */}
-              <div className="w-14 text-center ml-2">
+              <div className="w-[80px] flex justify-center">
                 <RiskBadge level={customer.currentRisk} />
               </div>
               
               {/* Trend */}
-              <div className="w-16 text-center">
+              <div className="flex-1 flex justify-center">
                 <TrendIndicator trend={customer.trend} riskLevel={customer.currentRisk} />
               </div>
             </div>
@@ -265,7 +267,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
         </div>
         
         {customers.length > 8 && (
-          <p className="mt-3 text-center text-xs text-muted-foreground">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             + {customers.length - 8} more customers
           </p>
         )}
