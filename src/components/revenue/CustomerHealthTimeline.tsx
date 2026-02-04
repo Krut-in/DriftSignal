@@ -16,8 +16,8 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
   const max = Math.max(...data, 100);
   const min = Math.min(...data, 0);
   const range = max - min || 1;
-  const height = 32;
-  const width = 120;
+  const height = 24;
+  const width = 100;
   const padding = 2;
   
   const points = data.map((value, index) => {
@@ -61,13 +61,11 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
 }
 
 function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 'declining'; riskLevel: 'high' | 'medium' | 'low' }) {
-  // Context-aware labels: "Stable" for high-risk customers is misleading
-  // Show "Persistently High" or "Persistently At Risk" instead
   const getConfig = () => {
     if (trend === 'improving') {
       return {
         icon: TrendingDown,
-        label: 'Improving',
+        label: 'Better',
         className: 'text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-950',
       };
     }
@@ -75,7 +73,7 @@ function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 
     if (trend === 'declining') {
       return {
         icon: TrendingUp,
-        label: 'Worsening',
+        label: 'Worse',
         className: 'text-destructive bg-destructive/10',
       };
     }
@@ -84,7 +82,7 @@ function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 
     if (riskLevel === 'high') {
       return {
         icon: Minus,
-        label: 'Persistently High',
+        label: 'Stuck',
         className: 'text-destructive bg-destructive/10',
       };
     }
@@ -92,14 +90,14 @@ function TrendIndicator({ trend, riskLevel }: { trend: 'improving' | 'stable' | 
     if (riskLevel === 'medium') {
       return {
         icon: Minus,
-        label: 'Holding',
+        label: 'Hold',
         className: 'text-warning bg-warning/10',
       };
     }
     
     return {
       icon: Minus,
-      label: 'Stable',
+      label: 'Steady',
       className: 'text-muted-foreground bg-muted',
     };
   };
@@ -194,65 +192,72 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
   // Show top 8 customers sorted by risk
   const topCustomers = customers.slice(0, 8);
   
-  // Get month labels for header
-  const monthLabels = topCustomers[0]?.history.map(h => {
+  // Get month labels for header - show first, middle, and last only
+  const allMonthLabels = topCustomers[0]?.history.map(h => {
     const date = new Date(h.year, h.month - 1);
     return date.toLocaleDateString('en-US', { month: 'short' });
   }) || [];
+  
+  const monthLabels = allMonthLabels.length >= 3 
+    ? [allMonthLabels[0], allMonthLabels[Math.floor(allMonthLabels.length / 2)], allMonthLabels[allMonthLabels.length - 1]]
+    : allMonthLabels;
 
   return (
     <Card className="bg-card">
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Activity className="h-5 w-5" />
-            Customer Health Timeline
+          <CardTitle className="flex items-center gap-2 text-base font-semibold">
+            <Activity className="h-4 w-4 text-primary" />
+            Health Timeline
           </CardTitle>
-          <span className="text-xs text-muted-foreground">
-            6-month risk trend
+          <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
+            6-mo trend
           </span>
         </div>
       </CardHeader>
-      <CardContent>
-        {/* Month labels header */}
-        <div className="mb-3 flex items-center gap-4 text-xs text-muted-foreground">
-          <div className="w-28 shrink-0" />
-          <div className="flex w-[120px] justify-between px-1">
+      <CardContent className="pt-0">
+        {/* Column headers */}
+        <div className="mb-2 flex items-center text-[10px] font-medium text-muted-foreground uppercase tracking-wide">
+          <div className="w-24 shrink-0">Customer</div>
+          <div className="flex w-[100px] justify-between px-0.5">
             {monthLabels.map((label, i) => (
-              <span key={i} className={i === monthLabels.length - 1 ? 'font-medium text-foreground' : ''}>
+              <span key={i} className={i === monthLabels.length - 1 ? 'text-foreground' : ''}>
                 {label}
               </span>
             ))}
           </div>
-          <div className="w-16 text-center">Risk</div>
-          <div className="w-24 text-center">Trend</div>
+          <div className="w-14 text-center ml-2">Risk</div>
+          <div className="w-16 text-center">Trend</div>
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-1">
           {topCustomers.map((customer) => (
             <div 
               key={customer.customerId} 
-              className="flex items-center gap-4 rounded-lg bg-secondary/30 px-3 py-2 transition-colors hover:bg-secondary/50"
+              className={cn(
+                "flex items-center rounded-md px-2 py-1.5 transition-colors hover:bg-secondary/50",
+                customer.currentRisk === 'high' && "bg-destructive/5 border-l-2 border-destructive",
+                customer.currentRisk === 'medium' && "bg-warning/5 border-l-2 border-warning",
+                customer.currentRisk === 'low' && "bg-secondary/20"
+              )}
             >
               {/* Customer name */}
-              <div className="w-28 shrink-0">
-                <p className="truncate text-sm font-medium text-foreground" title={customer.customerName}>
+              <div className="w-24 shrink-0">
+                <p className="truncate text-xs font-medium text-foreground" title={customer.customerName}>
                   {customer.customerName}
                 </p>
               </div>
               
               {/* Sparkline */}
-              <div className="flex items-center justify-center">
-                <Sparkline data={customer.history.map(h => h.riskScore)} />
-              </div>
+              <Sparkline data={customer.history.map(h => h.riskScore)} className="w-[100px]" />
               
               {/* Current risk */}
-              <div className="w-16 text-center">
+              <div className="w-14 text-center ml-2">
                 <RiskBadge level={customer.currentRisk} />
               </div>
               
               {/* Trend */}
-              <div className="w-24 text-center">
+              <div className="w-16 text-center">
                 <TrendIndicator trend={customer.trend} riskLevel={customer.currentRisk} />
               </div>
             </div>
