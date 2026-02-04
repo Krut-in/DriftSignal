@@ -1,1 +1,7 @@
 project_id = "dwmqerlhfgpanswyauyt"
+
+[functions.light-revenue-data]
+verify_jwt = false
+
+[functions.revenue-analysis]
+verify_jwt = false
