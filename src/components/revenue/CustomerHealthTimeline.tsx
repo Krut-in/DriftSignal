@@ -17,7 +17,7 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
   const min = Math.min(...data, 0);
   const range = max - min || 1;
   const height = 40;
-  const width = 140;
+  const width = 190;
   const padding = 4;
   
   const points = data.map((value, index) => {
@@ -219,7 +219,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
         {/* Column headers */}
         <div className="mb-4 pb-3 border-b border-border flex items-center gap-10 text-xs font-medium text-muted-foreground uppercase tracking-wider">
           <div className="w-[140px] shrink-0">Customer</div>
-          <div className="w-[140px] shrink-0 flex justify-between px-1">
+          <div className="w-[190px] shrink-0 flex justify-between px-1">
             {monthLabels.map((label, i) => (
               <span key={i} className={i === monthLabels.length - 1 ? 'text-foreground font-semibold' : ''}>
                 {label}
@@ -249,7 +249,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
               </div>
               
               {/* Sparkline */}
-              <div className="w-[140px] shrink-0 flex items-center justify-center">
+              <div className="w-[190px] shrink-0 flex items-center justify-center">
                 <Sparkline data={customer.history.map(h => h.riskScore)} />
               </div>
               
