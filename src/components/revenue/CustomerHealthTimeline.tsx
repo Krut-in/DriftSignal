@@ -217,7 +217,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
       </CardHeader>
       <CardContent>
         {/* Column headers */}
-        <div className="mb-4 pb-3 border-b border-border flex items-center gap-6 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <div className="mb-4 pb-3 border-b border-border flex items-center gap-10 text-xs font-medium text-muted-foreground uppercase tracking-wider">
           <div className="w-[140px] shrink-0">Customer</div>
           <div className="w-[140px] shrink-0 flex justify-between px-1">
             {monthLabels.map((label, i) => (
@@ -235,7 +235,7 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
             <div 
               key={customer.customerId} 
               className={cn(
-                "flex items-center gap-6 rounded-lg px-4 py-2.5 transition-all",
+                "flex items-center gap-10 rounded-lg px-4 py-2.5 transition-all",
                 customer.currentRisk === 'high' && "bg-destructive/5 border-l-4 border-destructive shadow-sm",
                 customer.currentRisk === 'medium' && "bg-warning/5 border-l-4 border-warning shadow-sm",
                 customer.currentRisk === 'low' && "bg-secondary/30 border-l-4 border-success/50 hover:bg-secondary/50"
