@@ -136,12 +136,23 @@ serve(async (req) => {
       fetchLightAPI('/v1/customer-credits', LIGHT_API_KEY),
     ]);
 
-    const customers: LightCustomer[] = customersRes.data || [];
-    const invoices: LightInvoice[] = invoicesRes.data || [];
-    const contracts: LightContract[] = contractsRes.data || [];
-    const credits: LightCredit[] = creditsRes.data || [];
+    // Light API returns 'records' not 'data'
+    const customers: LightCustomer[] = customersRes.records || customersRes.data || [];
+    const invoices: LightInvoice[] = invoicesRes.records || invoicesRes.data || [];
+    const contracts: LightContract[] = contractsRes.records || contractsRes.data || [];
+    const credits: LightCredit[] = creditsRes.records || creditsRes.data || [];
 
     console.log(`Fetched: ${customers.length} customers, ${invoices.length} invoices, ${contracts.length} contracts, ${credits.length} credits`);
+    
+    // Log sample invoice dates to debug filtering
+    if (invoices.length > 0) {
+      console.log('Sample invoice dates:', invoices.slice(0, 5).map(inv => ({
+        id: inv.id,
+        invoiceDate: inv.invoiceDate,
+        amount: inv.amount,
+        customerId: inv.customerId
+      })));
+    }
 
     const prev = getPreviousMonth(month, year);
 
