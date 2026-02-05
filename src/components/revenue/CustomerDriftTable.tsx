@@ -137,7 +137,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative max-w-sm flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-copper" />
           <Input
             placeholder="Search customers..."
             value={search}
@@ -157,7 +157,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
               <SelectItem value="low">Low Risk</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="sm" onClick={exportToCSV}>
+          <Button variant="outline" size="sm" onClick={exportToCSV} className="border-accent-teal/30 hover:bg-accent-teal/10 hover:text-accent-teal">
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
