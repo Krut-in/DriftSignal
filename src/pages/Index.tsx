@@ -59,7 +59,7 @@ const Index = () => {
         {/* Header */}
         <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-primary p-2">
+            <div className="rounded-lg bg-accent-teal p-2">
               <TrendingDown className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
@@ -106,9 +106,9 @@ const Index = () => {
 
         {/* Customer Health Timeline - Full Width */}
         <Collapsible open={healthTimelineOpen} onOpenChange={setHealthTimelineOpen} className="mb-8">
-          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-card px-4 py-3 text-left hover:bg-accent/50 transition-colors border">
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/15 transition-colors border">
             <h2 className="text-lg font-semibold text-foreground">Customer Health Timeline</h2>
-            <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${healthTimelineOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown className={`h-5 w-5 text-accent-indigo transition-transform duration-200 ${healthTimelineOpen ? 'rotate-180' : ''}`} />
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
             <CustomerHealthTimeline
@@ -123,9 +123,9 @@ const Index = () => {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Customer Table - 2 columns */}
           <Collapsible open={revenueDriftOpen} onOpenChange={setRevenueDriftOpen} className="lg:col-span-2">
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-card px-4 py-3 text-left hover:bg-accent/50 transition-colors border">
+            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/15 transition-colors border">
               <h2 className="text-lg font-semibold text-foreground">Customer Revenue Drift</h2>
-              <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform duration-200 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`h-5 w-5 text-accent-indigo transition-transform duration-200 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-4">
               <CustomerDriftTable 

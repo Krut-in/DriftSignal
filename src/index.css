@@ -65,6 +65,11 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 220 20% 15%;
     --sidebar-border: 40 15% 88%;
     --sidebar-ring: 220 30% 20%;
+
+    /* Accent colors */
+    --accent-teal: 175 65% 35%;
+    --accent-copper: 25 75% 50%;
+    --accent-indigo: 235 35% 45%;
   }
 
   .dark {
@@ -114,6 +119,11 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 40 15% 90%;
     --sidebar-border: 220 15% 15%;
     --sidebar-ring: 40 30% 85%;
+
+    /* Accent colors - dark mode */
+    --accent-teal: 175 55% 45%;
+    --accent-copper: 25 70% 55%;
+    --accent-indigo: 235 40% 55%;
   }
 }
 
