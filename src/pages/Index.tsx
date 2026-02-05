@@ -147,7 +147,8 @@ const Index = () => {
         </div>
 
         {/* Footer */}
-        <footer className="mt-12 border-t pt-6 text-center">
+        <footer className="mt-12 pt-6 text-center relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-gradient-to-r from-transparent via-accent-teal to-transparent" />
           <p className="text-sm text-muted-foreground">
             Data sourced from Light ERP • Last updated: {new Date().toLocaleDateString()}
           </p>

@@ -154,7 +154,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
         {analysis.topDriftingCustomers.length > 0 && (
           <div>
             <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-              <Target className="h-4 w-4" />
+              <Target className="h-4 w-4 text-accent-indigo" />
               Top Drifting Customers
             </h4>
             <div className="space-y-2">
@@ -178,7 +178,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
             <ul className="space-y-1">
               {analysis.rootCauses.map((cause, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-copper" />
                   {cause}
                 </li>
               ))}
@@ -215,7 +215,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
         {analysis.investigationQuestions.length > 0 && (
           <div>
             <h4 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground">
-              <HelpCircle className="h-4 w-4" />
+              <HelpCircle className="h-4 w-4 text-accent-teal" />
               Questions to Investigate
             </h4>
             <ul className="space-y-1">

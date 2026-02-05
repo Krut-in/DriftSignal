@@ -207,17 +207,17 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2.5 text-lg font-semibold">
-            <Activity className="h-5 w-5 text-primary" />
+            <Activity className="h-5 w-5 text-accent-teal" />
             Customer Health Timeline
           </CardTitle>
-          <span className="text-xs text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full">
+          <span className="text-xs text-accent-indigo bg-accent-indigo/10 px-3 py-1 rounded-full font-medium">
             6-month trend
           </span>
         </div>
       </CardHeader>
       <CardContent>
         {/* Column headers */}
-        <div className="mb-4 pb-3 border-b border-border flex items-center gap-10 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+        <div className="mb-4 pb-3 border-b-2 border-accent-teal/20 flex items-center gap-10 text-xs font-medium text-muted-foreground uppercase tracking-wider">
           <div className="w-[140px] shrink-0">Customer</div>
           <div className="w-[190px] shrink-0 flex justify-between px-1">
             {monthLabels.map((label, i) => (
