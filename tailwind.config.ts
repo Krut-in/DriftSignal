@@ -38,6 +38,9 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          teal: "hsl(var(--accent-teal))",
+          copper: "hsl(var(--accent-copper))",
+          indigo: "hsl(var(--accent-indigo))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",

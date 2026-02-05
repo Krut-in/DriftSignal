@@ -39,8 +39,8 @@ export function KPICard({ title, value, subtitle, icon: Icon, trend, trendValue 
               </div>
             )}
           </div>
-          <div className="rounded-lg bg-secondary p-2.5">
-            <Icon className="h-5 w-5 text-muted-foreground" />
+          <div className="rounded-lg bg-accent-copper/15 p-2.5">
+            <Icon className="h-5 w-5 text-accent-copper" />
           </div>
         </div>
       </CardContent>

@@ -54,7 +54,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
       <Card className="bg-card">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Lightbulb className="h-5 w-5" />
+            <Lightbulb className="h-5 w-5 text-accent-copper" />
             AI Analysis
           </CardTitle>
         </CardHeader>
@@ -94,7 +94,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
       <Card className="bg-card">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Lightbulb className="h-5 w-5" />
+            <Lightbulb className="h-5 w-5 text-accent-copper" />
             AI Analysis
           </CardTitle>
         </CardHeader>
@@ -119,7 +119,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
     <Card className="bg-card">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Lightbulb className="h-5 w-5" />
+          <Lightbulb className="h-5 w-5 text-accent-copper" />
           AI Analysis
         </CardTitle>
         <div className="flex items-center gap-2">
