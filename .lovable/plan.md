@@ -1,88 +1,56 @@
 
-# Color Enhancement Plan
+# Layout Rearrangement Plan
 
 ## Overview
-Add three distinctive accent colors to elevate the dashboard's visual appeal while maintaining the existing warm corporate aesthetic and semantic risk colors.
+Restructure the dashboard layout to stack all three main sections vertically in a single column, removing the current side-by-side grid arrangement.
 
-## Proposed Color Palette
-
-### The Three Accent Colors
-
-| Color | Name | HSL Value | Usage |
-|-------|------|-----------|-------|
-| **Accent 1** | Ocean Teal | `175 65% 35%` | Main heading, primary brand element |
-| **Accent 2** | Burnt Copper | `25 75% 50%` | KPI card icons, interactive highlights |
-| **Accent 3** | Slate Indigo | `235 35% 45%` | Section headers, collapsible triggers |
-
-These colors are:
-- Unique and sophisticated (not standard blue/green/red)
-- Complementary to the existing navy/cream/amber palette
-- Accessible with good contrast ratios
-
-## Where Colors Will Be Applied
-
-### Accent 1: Ocean Teal
-- Main app header icon background
-- "Revenue Drift Intelligence" title accent
-
-### Accent 2: Burnt Copper  
-- KPI card icon backgrounds (replacing neutral gray)
-- Adds warmth and visual interest to key metrics
-
-### Accent 3: Slate Indigo
-- Collapsible section header backgrounds
-- Creates visual hierarchy without overwhelming
-
-## Implementation Details
-
-### File 1: `src/index.css`
-Add three new CSS custom properties:
-
-```css
-/* Light mode */
---accent-teal: 175 65% 35%;
---accent-copper: 25 75% 50%;
---accent-indigo: 235 35% 45%;
-
-/* Dark mode variants */
---accent-teal: 175 55% 45%;
---accent-copper: 25 70% 55%;
---accent-indigo: 235 40% 55%;
+## Current Layout
+```text
++------------------------------------------+
+|  Customer Health Timeline (full width)    |
++------------------------------------------+
+|                                          |
+| Customer Revenue Drift  |  AI Analysis   |
+|    (2 columns)          |  (1 column)    |
+|                                          |
++------------------------------------------+
 ```
 
-### File 2: `tailwind.config.ts`
-Extend the colors object:
-
-```typescript
-accent: {
-  teal: "hsl(var(--accent-teal))",
-  copper: "hsl(var(--accent-copper))",
-  indigo: "hsl(var(--accent-indigo))",
-}
+## New Layout
+```text
++------------------------------------------+
+|  Customer Health Timeline (collapsible)   |
++------------------------------------------+
+|  Customer Revenue Drift (collapsible)     |
++------------------------------------------+
+|  AI Analysis Panel                        |
++------------------------------------------+
 ```
 
-### File 3: `src/pages/Index.tsx`
-- Change header icon background: `bg-accent-teal`
-- Change collapsible triggers: `bg-accent-indigo/10` with `text-accent-indigo` for icon
+## Changes Required
 
-### File 4: `src/components/revenue/KPICard.tsx`
-- Change icon container: `bg-accent-copper/15` with `text-accent-copper`
+### File: `src/pages/Index.tsx`
 
-### File 5: `src/components/revenue/AIAnalysisPanel.tsx`
-- Lightbulb icon: `text-accent-copper` (ties AI insights to KPIs visually)
+**Remove the grid container** - The current `<div className="grid gap-8 lg:grid-cols-3">` wrapper will be removed.
 
-## What Stays Unchanged
-- Risk colors (red/amber/green) - these have semantic meaning
-- Text colors and backgrounds - maintains readability
-- Card and border styles - keeps clean aesthetic
+**Stack sections vertically** - All three sections will be siblings with consistent `mb-8` spacing:
 
-## Visual Impact Summary
+1. **Customer Health Timeline** (lines 108-120)
+   - Keep as-is (already full width, collapsible)
+   - Maintain `mb-8` for spacing
 
-| Element | Before | After |
-|---------|--------|-------|
-| App header icon | Navy background | Teal background |
-| KPI icons | Gray background | Copper/bronze tint |
-| Collapsible headers | Plain card | Subtle indigo accent |
-| AI panel icon | Default gray | Copper highlight |
+2. **Customer Revenue Drift** (lines 125-136)
+   - Remove `lg:col-span-2` class
+   - Add `mb-8` for spacing below
+   - Keep collapsible functionality
 
-This approach uses color sparingly at key focal points rather than throughout, creating visual hierarchy without overwhelming the data-focused interface.
+3. **AI Analysis Panel** (lines 139-146)
+   - Remove the wrapping `<section className="lg:col-span-1">`
+   - Keep as a simple section without column constraints
+
+## Summary
+- One file modified: `src/pages/Index.tsx`
+- Remove 3-column grid layout
+- All sections become full-width and stacked vertically
+- Collapsible functionality preserved for Health Timeline and Revenue Drift
+- AI Analysis remains non-collapsible as designed
