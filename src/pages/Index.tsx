@@ -119,32 +119,27 @@ const Index = () => {
           </CollapsibleContent>
         </Collapsible>
 
-        {/* Main Content Grid */}
-        <div className="grid gap-8 lg:grid-cols-3">
-          {/* Customer Table - 2 columns */}
-          <Collapsible open={revenueDriftOpen} onOpenChange={setRevenueDriftOpen} className="lg:col-span-2">
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/20 transition-all duration-300 border border-accent-indigo/20 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10 group">
-              <h2 className="text-lg font-semibold text-foreground group-hover:text-accent-indigo transition-colors duration-300">Customer Revenue Drift</h2>
-              <ChevronDown className={`h-5 w-5 text-accent-indigo transition-all duration-300 group-hover:scale-110 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-4">
-              <CustomerDriftTable 
-                customers={revenueData?.customers || []} 
-                isLoading={isLoadingData}
-              />
-            </CollapsibleContent>
-          </Collapsible>
-
-          {/* AI Analysis Panel - 1 column */}
-          <section className="lg:col-span-1">
-            <AIAnalysisPanel
-              analysis={analysis}
-              isLoading={isLoadingAnalysis}
-              error={analysisError}
-              onRegenerate={() => refetchAnalysis()}
+        {/* Customer Revenue Drift */}
+        <Collapsible open={revenueDriftOpen} onOpenChange={setRevenueDriftOpen} className="mb-8">
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/20 transition-all duration-300 border border-accent-indigo/20 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10 group">
+            <h2 className="text-lg font-semibold text-foreground group-hover:text-accent-indigo transition-colors duration-300">Customer Revenue Drift</h2>
+            <ChevronDown className={`h-5 w-5 text-accent-indigo transition-all duration-300 group-hover:scale-110 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-4">
+            <CustomerDriftTable 
+              customers={revenueData?.customers || []} 
+              isLoading={isLoadingData}
             />
-          </section>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
+
+        {/* AI Analysis Panel */}
+        <AIAnalysisPanel
+          analysis={analysis}
+          isLoading={isLoadingAnalysis}
+          error={analysisError}
+          onRegenerate={() => refetchAnalysis()}
+        />
 
         {/* Footer */}
         <footer className="mt-12 pt-6 text-center relative">
