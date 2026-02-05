@@ -1,4 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface MonthSelectorProps {
   month: number;
@@ -26,8 +28,35 @@ export function MonthSelector({ month, year, onMonthChange, onYearChange }: Mont
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
+  const handlePreviousMonth = () => {
+    if (month === 1) {
+      onMonthChange(12);
+      onYearChange(year - 1);
+    } else {
+      onMonthChange(month - 1);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (month === 12) {
+      onMonthChange(1);
+      onYearChange(year + 1);
+    } else {
+      onMonthChange(month + 1);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={handlePreviousMonth}
+        className="h-9 w-9 border-accent-indigo/20 hover:border-accent-indigo/40 hover:bg-accent-indigo/10 hover:shadow-md hover:shadow-accent-indigo/10 transition-all duration-300"
+      >
+        <ChevronLeft className="h-4 w-4 text-accent-indigo" />
+      </Button>
+
       <Select value={String(month)} onValueChange={(v) => onMonthChange(Number(v))}>
         <SelectTrigger className="w-[140px] bg-card border-accent-indigo/20 focus:ring-accent-indigo/30 transition-all duration-300 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10">
           <SelectValue />
@@ -53,6 +82,15 @@ export function MonthSelector({ month, year, onMonthChange, onYearChange }: Mont
           ))}
         </SelectContent>
       </Select>
+
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={handleNextMonth}
+        className="h-9 w-9 border-accent-indigo/20 hover:border-accent-indigo/40 hover:bg-accent-indigo/10 hover:shadow-md hover:shadow-accent-indigo/10 transition-all duration-300"
+      >
+        <ChevronRight className="h-4 w-4 text-accent-indigo" />
+      </Button>
     </div>
   );
 }
