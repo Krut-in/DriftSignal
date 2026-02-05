@@ -136,18 +136,18 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="relative max-w-sm flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-copper" />
+        <div className="relative max-w-sm flex-1 group">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-copper transition-transform duration-300 group-focus-within:scale-110" />
           <Input
             placeholder="Search customers..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-card"
+            className="pl-10 bg-card transition-all duration-300 focus:border-accent-copper/50 focus:ring-accent-copper/20 focus:shadow-md focus:shadow-accent-copper/10"
           />
         </div>
         <div className="flex items-center gap-2">
-          <Select value={riskFilter} onValueChange={(v) => setRiskFilter(v as RiskFilter)}>
-            <SelectTrigger className="w-[130px] bg-card">
+          <Select value={riskFilter} onValueChange={(v) => setRiskFilter(v as RiskFilter)}> 
+            <SelectTrigger className="w-[130px] bg-card transition-all duration-300 hover:border-accent-indigo/40 focus:border-accent-indigo/50">
               <SelectValue placeholder="Risk Level" />
             </SelectTrigger>
             <SelectContent>
@@ -157,8 +157,8 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
               <SelectItem value="low">Low Risk</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="sm" onClick={exportToCSV} className="border-accent-teal/30 hover:bg-accent-teal/10 hover:text-accent-teal">
-            <Download className="mr-2 h-4 w-4" />
+          <Button variant="outline" size="sm" onClick={exportToCSV} className="border-accent-teal/30 hover:bg-accent-teal/10 hover:text-accent-teal transition-all duration-300 hover:scale-105 hover:shadow-md hover:shadow-accent-teal/20 group">
+            <Download className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
             Export
           </Button>
         </div>
@@ -169,7 +169,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               <TableHead 
-                className="cursor-pointer select-none"
+                className="cursor-pointer select-none transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("customerName")}
               >
                 <div className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
                 </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer select-none text-right"
+                className="cursor-pointer select-none text-right transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("currentRevenue")}
               >
                 <div className="flex items-center justify-end gap-2">
@@ -187,7 +187,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
                 </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer select-none text-right"
+                className="cursor-pointer select-none text-right transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("revenueChangePercent")}
               >
                 <div className="flex items-center justify-end gap-2">
@@ -196,7 +196,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
                 </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer select-none text-right"
+                className="cursor-pointer select-none text-right transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("unpaidAmount")}
               >
                 <div className="flex items-center justify-end gap-2">
@@ -205,7 +205,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
                 </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer select-none text-right"
+                className="cursor-pointer select-none text-right transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("creditsApplied")}
               >
                 <div className="flex items-center justify-end gap-2">
@@ -214,7 +214,7 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
                 </div>
               </TableHead>
               <TableHead 
-                className="cursor-pointer select-none text-center"
+                className="cursor-pointer select-none text-center transition-colors duration-200 hover:text-accent-indigo"
                 onClick={() => handleSort("riskLevel")}
               >
                 <div className="flex items-center justify-center gap-2">
@@ -233,8 +233,8 @@ export function CustomerDriftTable({ customers, isLoading }: CustomerDriftTableP
               </TableRow>
             ) : (
               filteredAndSorted.map((customer) => (
-                <TableRow key={customer.customerId}>
-                  <TableCell className="font-medium">{customer.customerName}</TableCell>
+                <TableRow key={customer.customerId} className="transition-colors duration-200 hover:bg-accent-copper/5">
+                  <TableCell className="font-medium text-foreground">{customer.customerName}</TableCell>
                   <TableCell className="text-right">{formatCurrency(customer.currentRevenue)}</TableCell>
                   <TableCell className={cn(
                     "text-right font-medium",

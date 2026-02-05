@@ -116,27 +116,27 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
   };
 
   return (
-    <Card className="bg-card">
+    <Card className="bg-card transition-all duration-300 hover:shadow-lg hover:shadow-accent-copper/5">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Lightbulb className="h-5 w-5 text-accent-copper" />
+          <Lightbulb className="h-5 w-5 text-accent-copper animate-pulse-subtle" />
           AI Analysis
         </CardTitle>
         <div className="flex items-center gap-2">
           {onRegenerate && (
-            <Button variant="ghost" size="sm" onClick={onRegenerate}>
-              <RefreshCw className="h-4 w-4" />
+            <Button variant="ghost" size="sm" onClick={onRegenerate} className="transition-all duration-300 hover:text-accent-teal hover:bg-accent-teal/10 group">
+              <RefreshCw className="h-4 w-4 transition-transform duration-500 group-hover:rotate-180" />
             </Button>
           )}
-          <Button variant="outline" size="sm" onClick={copyToClipboard}>
+          <Button variant="outline" size="sm" onClick={copyToClipboard} className="transition-all duration-300 hover:border-accent-copper/40 hover:bg-accent-copper/10 hover:text-accent-copper group">
             {copied ? (
               <>
-                <Check className="mr-2 h-4 w-4" />
+                <Check className="mr-2 h-4 w-4 text-success" />
                 Copied
               </>
             ) : (
               <>
-                <Copy className="mr-2 h-4 w-4" />
+                <Copy className="mr-2 h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                 Copy
               </>
             )}
@@ -146,7 +146,10 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
       <CardContent className="space-y-6">
         {/* Executive Summary */}
         <div>
-          <h4 className="mb-2 text-sm font-semibold text-foreground">Executive Summary</h4>
+          <h4 className="mb-2 text-sm font-semibold text-foreground flex items-center gap-2">
+            <span className="w-1 h-4 bg-accent-teal rounded-full" />
+            Executive Summary
+          </h4>
           <p className="text-sm leading-relaxed text-muted-foreground">{analysis.summary}</p>
         </div>
 
@@ -174,7 +177,10 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
         {/* Root Causes */}
         {analysis.rootCauses.length > 0 && (
           <div>
-            <h4 className="mb-2 text-sm font-semibold text-foreground">Likely Root Causes</h4>
+            <h4 className="mb-2 text-sm font-semibold text-foreground flex items-center gap-2">
+              <span className="w-1 h-4 bg-accent-copper rounded-full" />
+              Likely Root Causes
+            </h4>
             <ul className="space-y-1">
               {analysis.rootCauses.map((cause, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -189,7 +195,10 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
         {/* Recommended Actions */}
         {analysis.recommendedActions.length > 0 && (
           <div>
-            <h4 className="mb-3 text-sm font-semibold text-foreground">Recommended Actions</h4>
+            <h4 className="mb-3 text-sm font-semibold text-foreground flex items-center gap-2">
+              <span className="w-1 h-4 bg-accent-indigo rounded-full" />
+              Recommended Actions
+            </h4>
             <div className="space-y-2">
               {analysis.recommendedActions.map((action, i) => (
                 <div key={i} className="flex items-start gap-3">
@@ -221,7 +230,7 @@ ${analysis.investigationQuestions.map(q => `• ${q}`).join('\n')}
             <ul className="space-y-1">
               {analysis.investigationQuestions.map((question, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-teal" />
                   {question}
                 </li>
               ))}

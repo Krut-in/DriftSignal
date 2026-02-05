@@ -13,11 +13,11 @@ interface KPICardProps {
 
 export function KPICard({ title, value, subtitle, icon: Icon, trend, trendValue }: KPICardProps) {
   return (
-    <Card className="bg-card border-border">
+    <Card className="bg-card border-border transition-all duration-300 hover:shadow-lg hover:shadow-accent-copper/5 hover:border-accent-copper/20 group">
       <CardContent className="p-5">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <p className="text-sm font-medium text-muted-foreground group-hover:text-accent-copper transition-colors duration-300">{title}</p>
             <p className="text-2xl font-semibold tracking-tight text-foreground">{value}</p>
             {(subtitle || trendValue) && (
               <div className="flex items-center gap-2 pt-1">
@@ -39,8 +39,8 @@ export function KPICard({ title, value, subtitle, icon: Icon, trend, trendValue 
               </div>
             )}
           </div>
-          <div className="rounded-lg bg-accent-copper/15 p-2.5">
-            <Icon className="h-5 w-5 text-accent-copper" />
+          <div className="rounded-lg bg-accent-copper/15 p-2.5 transition-all duration-300 group-hover:bg-accent-copper/25 group-hover:scale-110">
+            <Icon className="h-5 w-5 text-accent-copper transition-transform duration-300 group-hover:rotate-6" />
           </div>
         </div>
       </CardContent>
