@@ -203,14 +203,14 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
     : allMonthLabels;
 
   return (
-    <Card className="bg-card">
+    <Card className="bg-card transition-all duration-300 hover:shadow-lg hover:shadow-accent-teal/5">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2.5 text-lg font-semibold">
-            <Activity className="h-5 w-5 text-accent-teal" />
+            <Activity className="h-5 w-5 text-accent-teal animate-pulse-subtle" />
             Customer Health Timeline
           </CardTitle>
-          <span className="text-xs text-accent-indigo bg-accent-indigo/10 px-3 py-1 rounded-full font-medium">
+          <span className="text-xs text-accent-indigo bg-accent-indigo/10 px-3 py-1 rounded-full font-medium transition-all duration-300 hover:bg-accent-indigo/20 hover:scale-105 cursor-default">
             6-month trend
           </span>
         </div>
@@ -235,10 +235,10 @@ export function CustomerHealthTimeline({ customers, isLoading, error }: Customer
             <div 
               key={customer.customerId} 
               className={cn(
-                "flex items-center gap-10 rounded-lg px-4 py-2.5 transition-all",
-                customer.currentRisk === 'high' && "bg-destructive/5 border-l-4 border-destructive shadow-sm",
-                customer.currentRisk === 'medium' && "bg-warning/5 border-l-4 border-warning shadow-sm",
-                customer.currentRisk === 'low' && "bg-secondary/30 border-l-4 border-success/50 hover:bg-secondary/50"
+                "flex items-center gap-10 rounded-lg px-4 py-2.5 transition-all duration-300 cursor-pointer",
+                customer.currentRisk === 'high' && "bg-destructive/5 border-l-4 border-destructive shadow-sm hover:bg-destructive/10 hover:shadow-md",
+                customer.currentRisk === 'medium' && "bg-warning/5 border-l-4 border-warning shadow-sm hover:bg-warning/10 hover:shadow-md",
+                customer.currentRisk === 'low' && "bg-secondary/30 border-l-4 border-success/50 hover:bg-success/10 hover:shadow-md"
               )}
             >
               {/* Customer name */}

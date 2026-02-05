@@ -29,7 +29,7 @@ export function MonthSelector({ month, year, onMonthChange, onYearChange }: Mont
   return (
     <div className="flex items-center gap-2">
       <Select value={String(month)} onValueChange={(v) => onMonthChange(Number(v))}>
-        <SelectTrigger className="w-[140px] bg-card border-accent-indigo/20 focus:ring-accent-indigo/30">
+        <SelectTrigger className="w-[140px] bg-card border-accent-indigo/20 focus:ring-accent-indigo/30 transition-all duration-300 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -42,7 +42,7 @@ export function MonthSelector({ month, year, onMonthChange, onYearChange }: Mont
       </Select>
       
       <Select value={String(year)} onValueChange={(v) => onYearChange(Number(v))}>
-        <SelectTrigger className="w-[100px] bg-card border-accent-indigo/20 focus:ring-accent-indigo/30">
+        <SelectTrigger className="w-[100px] bg-card border-accent-indigo/20 focus:ring-accent-indigo/30 transition-all duration-300 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

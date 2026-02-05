@@ -59,11 +59,11 @@ const Index = () => {
         {/* Header */}
         <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-accent-teal p-2">
-              <TrendingDown className="h-6 w-6 text-primary-foreground" />
+            <div className="rounded-lg bg-accent-teal p-2 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-accent-teal/30 cursor-pointer">
+              <TrendingDown className="h-6 w-6 text-primary-foreground transition-transform duration-300 hover:rotate-12" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              <h1 className="text-2xl font-semibold tracking-tight text-foreground bg-gradient-to-r from-foreground via-accent-teal to-foreground bg-clip-text">
                 Revenue Drift Intelligence
               </h1>
               <p className="text-sm text-muted-foreground">
@@ -106,9 +106,9 @@ const Index = () => {
 
         {/* Customer Health Timeline - Full Width */}
         <Collapsible open={healthTimelineOpen} onOpenChange={setHealthTimelineOpen} className="mb-8">
-          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/15 transition-colors border">
-            <h2 className="text-lg font-semibold text-foreground">Customer Health Timeline</h2>
-            <ChevronDown className={`h-5 w-5 text-accent-indigo transition-transform duration-200 ${healthTimelineOpen ? 'rotate-180' : ''}`} />
+          <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/20 transition-all duration-300 border border-accent-indigo/20 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10 group">
+            <h2 className="text-lg font-semibold text-foreground group-hover:text-accent-indigo transition-colors duration-300">Customer Health Timeline</h2>
+            <ChevronDown className={`h-5 w-5 text-accent-indigo transition-all duration-300 group-hover:scale-110 ${healthTimelineOpen ? 'rotate-180' : ''}`} />
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
             <CustomerHealthTimeline
@@ -123,9 +123,9 @@ const Index = () => {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Customer Table - 2 columns */}
           <Collapsible open={revenueDriftOpen} onOpenChange={setRevenueDriftOpen} className="lg:col-span-2">
-            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/15 transition-colors border">
-              <h2 className="text-lg font-semibold text-foreground">Customer Revenue Drift</h2>
-              <ChevronDown className={`h-5 w-5 text-accent-indigo transition-transform duration-200 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
+            <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-accent-indigo/10 px-4 py-3 text-left hover:bg-accent-indigo/20 transition-all duration-300 border border-accent-indigo/20 hover:border-accent-indigo/40 hover:shadow-md hover:shadow-accent-indigo/10 group">
+              <h2 className="text-lg font-semibold text-foreground group-hover:text-accent-indigo transition-colors duration-300">Customer Revenue Drift</h2>
+              <ChevronDown className={`h-5 w-5 text-accent-indigo transition-all duration-300 group-hover:scale-110 ${revenueDriftOpen ? 'rotate-180' : ''}`} />
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-4">
               <CustomerDriftTable 
