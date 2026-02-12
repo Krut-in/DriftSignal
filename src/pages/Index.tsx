@@ -11,12 +11,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { TrendingDown, ChevronDown } from "lucide-react";
 
 function getDefaultPeriod() {
-  const now = new Date();
-  // Default to previous month
-  if (now.getMonth() === 0) {
-    return { month: 12, year: now.getFullYear() - 1 };
-  }
-  return { month: now.getMonth(), year: now.getFullYear() };
+  // Default to April 2025
+  return { month: 3, year: 2025 };
 }
 
 const Index = () => {
