@@ -12,7 +12,7 @@ import { TrendingDown, ChevronDown } from "lucide-react";
 
 function getDefaultPeriod() {
   // Default to April 2025
-  return { month: 3, year: 2025 };
+  return { month: 4, year: 2025 };
 }
 
 const Index = () => {
